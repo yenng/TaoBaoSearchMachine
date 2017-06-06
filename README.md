@@ -1,3 +1,1 @@
-# TaoBaoPriceSearch
-# TaoBaoSearchMachine
 # TaoBaoSearchMachine
