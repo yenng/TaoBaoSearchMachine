@@ -2,6 +2,7 @@ import os
 from selenium import webdriver
 import selenium.webdriver.support.ui as ui
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.action_chains import ActionChains
 from time import sleep    
   
 # create a new Chrome session
@@ -21,9 +22,15 @@ search_field.submit()
 
 # reached stm32 searching page
 # navigate to different product pages
-product = driver.find_element_by_class_name("item-inner")
-driver1 = product.click()
+product = driver.find_element_by_class_name("pic-box-inner")
+product.click()
+#action = ActionChains(driver)
+#driver.click(product)
 print driver.current_url
+
+driver.switch_to_window(driver.window_handles[1])
+print driver.current_url
+
 
 ''' 
 # get the list of elements which are displayed after the search
