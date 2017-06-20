@@ -1,10 +1,14 @@
 import os
+from bs4 import BeautifulSoup
 from selenium import webdriver
 import selenium.webdriver.support.ui as ui
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from time import sleep    
-  
+
+item = "Stm32f103c8t6"
+# print item
+print item
 # create a new Chrome session
 driver = webdriver.Chrome()
 driver.implicitly_wait(30)
@@ -17,19 +21,73 @@ driver.get("https://world.taobao.com")
 search_field = driver.find_element_by_name("q")
  
 # enter search keyword and submit
-search_field.send_keys("Stm32")
+search_field.send_keys(item)
 search_field.submit()
 
-# reached stm32 searching page
-# navigate to different product pages
-product = driver.find_element_by_class_name("pic-box-inner")
-product.click()
-#action = ActionChains(driver)
-#driver.click(product)
-print driver.current_url
+# reached Stm32f103c8t6 searching page
+# get the area that linked to the seller page
+shop = driver.find_elements_by_xpath("//div[@class='shop']")
 
+# get the html code within the area that got above
+shop_html = shop[0].get_attribute('innerHTML')
+
+# pass the html using beautifulsoup
+s = BeautifulSoup(shop_html,'html.parser')
+
+# get the seller's shop name
+for shop_span in s.find_all('span'):
+    if(shop_span.get('class')== None):
+        shop_name = shop_span.string
+
+#print shop_name
+print shop_name
+
+''' for loop to get all shops (working)
+for x in range(len(shop)):
+    #print shop[x]
+    i = 0
+'''
+
+# navigate to the seller's shop website
+shop[0].click()
+
+# switch the handling window to shop website
 driver.switch_to_window(driver.window_handles[1])
-print driver.current_url
+
+# get the search textbox from the shop website
+search = driver.find_element_by_name("keyword")
+
+# enter search keyword and send 
+search.send_keys(item)
+search.submit()
+
+# close the current window (shop website)
+driver.close()
+
+# switch the handling window to item searching page of shop website
+driver.switch_to_window(driver.window_handles[1])
+
+# get the area of the item list
+searchedItem = driver.find_element_by_class_name("item5line1")
+
+# get the html code of the area that found
+item_html = searchedItem.get_attribute('innerHTML')
+item_price = []
+
+# pass the html using beautifulsoup
+soup = BeautifulSoup(item_html,'html.parser')
+
+# find all the items' price 
+for span in soup.find_all('span'):
+    if(span.get('class')==[u'c-price']):
+        # remove extra white space with strip() 
+        item_price.append(span.string.strip())
+
+# print the items' price
+print item_price
+
+# switch off chrome driver
+driver.quit()
 
 
 ''' 
