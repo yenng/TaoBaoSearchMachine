@@ -48,4 +48,6 @@ plt.axis([40, 160, 0, 0.03])
 plt.grid(True)
 
 print np.random.randn(10000)
+print x
+
 plt.show()
