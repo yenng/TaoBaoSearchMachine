@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 from bs4 import BeautifulSoup
 from selenium import webdriver
@@ -20,11 +21,30 @@ def check_exists_by_class_name(driver, class_name):
 
 def search_item_in_shop_page(driver, item):
     # get the search textbox from the shop website
-    search = driver.find_element_by_name("q")
-    search_button = driver.find_element_by_class_name("btn-search-shop")
+    
+    if(driver.current_url.find("tmall")!=-1):
+        search = driver.find_element_by_name("q")
+        search_button = driver.find_element_by_xpath("//*[contains(text(), '搜本店')]")
+        search.send_keys(item)
+        search_button.click()
+    elif(driver.current_url.find("world")==-1):
+        search = driver.find_element_by_xpath("//input[@name='keyword']")
+        #search_button = driver.find_element_by_xpath("//li/button[@type='submit']")
+        search.send_keys(item)
+        search.submit()
+        # some shop open the item page in new tab, close the current tab and
+        # focus on the tab we interested
+        if(len(driver.window_handles)>2):
+            driver.close()
+            driver.switch_to_window(driver.window_handles[-1])
+    else:
+        search = driver.find_element_by_name("q")
+        search_button = driver.find_element_by_xpath("//*[contains(text(), '搜本店')]")
+        search.send_keys(item)
+        search_button.click()
+    
     # enter search keyword and sendby
-    search.send_keys(item)
-    search_button.click()
+    
     
 item = "Stm32f103c8t6"
 # print item
@@ -95,11 +115,13 @@ for i in range(len(shop)):
         driver.switch_to_window(driver.window_handles[1])
 
         # get the area of the item list
+        # This handle taobao webside
         if(driver.current_url.find("tmall")==-1):
             if (check_exists_by_class_name(driver, "item3line1")):
                 searchedItem = driver.find_element_by_class_name("item3line1")
             else:
                 searchedItem = driver.find_element_by_class_name("item4line1")
+        # This handle tmall webside
         else:
             if (check_exists_by_class_name(driver, "item5line1")):
                 searchedItem = driver.find_element_by_class_name("item5line1")

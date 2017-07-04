@@ -1,4 +1,4 @@
-import numpy as np
+﻿import numpy as np
 import matplotlib.mlab as mlab
 import matplotlib.pyplot as plt
 
@@ -28,4 +28,5 @@ n, bins, patches = plt.hist(x, 50, normed=1, facecolor='g', alpha=0.75)
 z = mlab.normpdf(bins, avr, sd)
 plt.plot(bins, z, '--')
 plt.axis([0, 200, 0, 0.1])
+print "搜本店"
 plt.show()
