@@ -6,6 +6,9 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from time import sleep    
 from selenium.common.exceptions import NoSuchElementException
+import numpy as np
+import matplotlib.mlab as mlab
+import matplotlib.pyplot as plt
 
 # check the exists of class name
 def check_exists_by_class_name(driver, class_name):
@@ -56,6 +59,7 @@ for x in range(len(shop)):
 '''
 count = 0
 repeat = 0
+item_price_all = []
 for i in range(len(shop)):
     # get the html code within the area that got above
     shop_html = shop[i].get_attribute('innerHTML')
@@ -113,7 +117,8 @@ for i in range(len(shop)):
         for span in soup.find_all('span'):
             if(span.get('class')==[u'c-price']):
                 # remove extra white space with strip() 
-                item_price.append(span.string.strip())
+                item_price.append(float(span.string.strip()))
+                item_price_all.append(item_price[-1])
 
         # print the items' price
         print "Price: ", item_price
@@ -125,6 +130,26 @@ for i in range(len(shop)):
 
         # switch off chrome driver
         #driver.quit()
+
+print item_price_all
+
+''' **********************Draw graph********************************** '''
+plt.figure(1)
+item_price_total = 0
+t = 0
+for x in range(len(item_price_all)):
+    item_price_total += item_price_all[x]
+item_price_mu = item_price_total/(x+1)
+for x in range(len(item_price_all)):
+    t += np.square(item_price_all[x]-item_price_mu)
+item_price_sigma = np.sqrt(t/(x+1))
+
+print item_price_total
+print item_price_mu
+print item_price_sigma               
+
+
+
 
 ''' 
 # get the list of elements which are displayed after the search

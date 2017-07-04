@@ -49,5 +49,5 @@ plt.grid(True)
 
 print np.random.randn(10000)
 print x
-
+print bins
 plt.show()
