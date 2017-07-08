@@ -16,16 +16,28 @@ print item
 # create a new Chrome session
 driver = webdriver.Chrome()
 #driver.implicitly_wait(30)
-driver.maximize_window()
-
+#driver.maximize_window()
+driver1 = webdriver.Chrome()
 
 
 # navigate to the application home page
 #driver.get("https://world.taobao.com")
-driver.get("https://acmemcu.taobao.com/shop/view_shop.htm?spm=a230r.1.14.64.ebb2eb2wZmcEZ&user_number_id=2142287760")
+driver.get("https://world.taobao.com")
+'''
+s = "https://xintaiwei.taobao.com/search.htm?search=y&keyword=stm32f103c8t6&lowPrice=&highPrice="
+x = s.find(".taobao")
+s = s[:x] + ".world" + s[x:]
+print s
+driver1.get(s)'''
 driver.implicitly_wait(10)
-search = driver.find_element_by_xpath("//input[@name='keyword']")
-
+search = driver.find_element_by_xpath("//input[@name='q']")
+'''
+search = driver.find_element_by_xpath("//input[@name='q']/following-sibling::input")
+search1 = driver.find_element_by_xpath("//input[@title='提交']")
+search2 = driver1.find_element_by_xpath("//li[@data-searchtype='thisshop']")
+search2.click()
+print search
+print search1
 '''
 # get the search textbox
 search_field = driver.find_element_by_name("q")
@@ -52,4 +64,3 @@ search = driver.find_element_by_xpath("//input[@name='keyword']")
 search.send_keys(item)
 search.submit()
 print driver.window_handles
-'''

@@ -22,11 +22,17 @@ def check_exists_by_class_name(driver, class_name):
 def search_item_in_shop_page(driver, item):
     # get the search textbox from the shop website
     
-    if(driver.current_url.find("tmall")!=-1):
-        search = driver.find_element_by_name("q")
-        search_button = driver.find_element_by_xpath("//*[contains(text(), '搜本店')]")
-        search.send_keys(item)
-        search_button.click()
+    if(driver.current_url.find("tmall")==-1):
+        url = driver.current_url
+        pos = url.find(".taobao")
+        url = s[:pos] + ".world" + s[pos:]
+        driver.get(url)
+    search = driver.find_element_by_name("q")
+    search_button = driver.find_element_by_xpath("//*[contains(text(), '搜本店')]")
+    search.send_keys(item)
+    search_button.click()
+        
+    '''
     elif(driver.current_url.find("world")==-1):
         search = driver.find_element_by_xpath("//input[@name='keyword']")
         #search_button = driver.find_element_by_xpath("//li/button[@type='submit']")
@@ -42,6 +48,7 @@ def search_item_in_shop_page(driver, item):
         search_button = driver.find_element_by_xpath("//*[contains(text(), '搜本店')]")
         search.send_keys(item)
         search_button.click()
+    '''
     
     # enter search keyword and sendby
     
