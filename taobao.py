@@ -1,18 +1,17 @@
 # -*- coding: utf-8 -*-
-from PyQt4.QtGui import *
-from PyQt4 import QtGui
-from PyQt4.QtCore import *
-from selenium import webdriver
-from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.backends.backend_qt4agg import NavigationToolbar2QT as NavigationToolbar
+import os
+import re
 from bs4 import BeautifulSoup
+from selenium import webdriver
+import selenium.webdriver.support.ui as ui
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.action_chains import ActionChains
+from time import sleep    
+from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import StaleElementReferenceException
 import numpy as np
 import matplotlib.mlab as mlab
 import matplotlib.pyplot as plt
-import sys
-import table_example
-import os
-import re
 
 class taobao:
     # check the exists of class name
@@ -182,129 +181,48 @@ class taobao:
         driver.implicitly_wait(30)
 
         self.item_price_list = item_price_list
-        #print item_price_all
+        print item_price_all
 
         ''' **********************Draw graph********************************** '''
         plt.figure(1)
-        self.item_price_total = 0
+        item_price_total = 0
         t = 0
-        for x in range(len(self.item_price_all)):
-            self.item_price_total += self.item_price_all[x]
-        self.item_price_mu = self.item_price_total/(x+1)
-        for x in range(len(self.item_price_all)):
-            t += np.square(self.item_price_all[x]-self.item_price_mu)
-        self.item_price_sigma = np.sqrt(t/(x+1))
+        for x in range(len(item_price_all)):
+            item_price_total += item_price_all[x]
+        item_price_mu = item_price_total/(x+1)
+        for x in range(len(item_price_all)):
+            t += np.square(item_price_all[x]-item_price_mu)
+        item_price_sigma = np.sqrt(t/(x+1))
 
-        '''
         print item_price_total
         print item_price_mu
-        print item_price_sigma
-        '''              
+        print item_price_sigma               
+
+    def main(self):
+        self.getPrice()
+
+tb = taobao()
+tb.main()
 
 
-class ExampleTable(QtGui.QDialog, table_example.Ui_Dialog):
-    def __init__(self):
-        super(self.__class__,self).__init__()
-        self.setupUi(self)
-
-        self.figure = plt.figure(1)
-        self.canvas = FigureCanvas(self.figure)
-        #self.toolbar = NavigationToolbar(self.canvas, self)
-        self.verticalLayout.addWidget(self.canvas)
-        #self.verticalLayout.addWidget(self.toolbar)
-        self.tableWidget.setRowCount(1)
-        self.tableWidget.setColumnCount(2)
-
-        self.Plot.clicked.connect(self.plot)
-        self.getData.clicked.connect(self.data)
-
-
-        
-    def data(self):
-        tb = taobao()
-        tb.getPrice()
-        title = QStringList()
-        shop_title = QString('Shop Name')
-        item_title = QString(self.item)
-        title.append(shop_title)
-        title.append(item_title)
-        table.setHorizontalHeaderLabels(title)
-
-        for i in range(len(tb.shop_name)):
-            if(self.tableWidget.rowCount() == i):
-                self.tableWidget.insertRow(int(self.tableWidget.rowCount()))
-            self.tableWidget.setItem(i,0, tb.shop_name[i])
-            self.tableWidget.setItem(i,1, tb.item_price_list[i])
-
-        self.item_price_total = tb.item_price_total
-        self.item_price_mu = tb.item_price_mu
-        self.item_price_sigma = tb.item_price_sigma
-        '''
-        # create a new Chrome session
-        driver = webdriver.Chrome()
-        driver.implicitly_wait(30)
-        #driver.maximize_window()
-
-        # navigate to the application home page
-        driver.get("https://login.taobao.com/member/login.jhtml?spm=a21wu.241046-my.754894437.1.4519fd50dPXaMM&f=top&redirectURL=https%3A%2F%2Fworld.taobao.com%2F%3Fspm%3Da21bp.8077467.1417485807582.1.6449e6bcStIj9X")
-
-        # login to Taobao website
-        username = driver.find_element_by_id("TPL_username_1")
-        password = driver.find_element_by_id("TPL_password_1")
-        username.send_keys("yenng3")
-        password.send_keys("12345678abc")
-        login = driver.find_element_by_id("J_SubmitStatic")
-        login.click()
-
-        self.tableWidget.setItem(0,0, QTableWidgetItem("Item (1,1)"))
-        self.tableWidget.setItem(0,1, QTableWidgetItem("Item (1,2)"))
-        self.tableWidget.setItem(1,0, QTableWidgetItem("Item (2,1)"))
-        self.tableWidget.setItem(1,1, QTableWidgetItem("Item (2,2)"))
-        self.tableWidget.setItem(2,0, QTableWidgetItem("Item (3,1)"))
-        self.tableWidget.setItem(2,1, QTableWidgetItem("Item (3,2)"))
-        self.tableWidget.setItem(3,0, QTableWidgetItem("Item (4,1)"))
-        self.tableWidget.setItem(3,1, QTableWidgetItem("Item (4,2)"))
-        self.tableWidget.insertRow(int(self.tableWidget.rowCount()))
-        x = self.tableWidget.columnCount()
-        self.tableWidget.insertColumn(x)'''
-        
-        
-    def plot(self):
-        x = self.item_price_total
-        '''[17.5, 9.8, 5.88, 6.4, 21.8, 28.0, 9.9, 8.0, 26.0, 5.4, 5.3, 7.5, 5.8,
-             8.7, 9.0, 5.4, 26.0, 18.9, 8.7, 18.0, 16.5, 9.7, 9.5, 25.0, 58.0, 147.0,
-             5.4, 5.4, 5.4, 6.8, 5.5, 4.2, 18.0, 17.5, 18.0, 5.69, 5.55, 19.88, 95.0,
-             15.9, 35.6, 9.8, 23.75, 24.51, 18.8, 9.0, 20.0, 15.0, 7.3, 7.3, 4.9, 5.66,
-             9.85, 15.35, 15.9, 28.0, 7.99, 13.7, 10.0, 27.0, 8.65, 65.0, 39.0, 9.9,
-             5.18, 5.4, 16.5, 11.8, 16.8, 13.5, 18.9, 69.0, 59.0, 23.9, 150.0, 13.5,
-             60.0, 18.0, 11.2, 25.0, 9.0, 7.25, 24.99, 6.08, 3.6, 7.1, 11.5, 17.5,
-             29.0, 21.0, 8.5, 198.0]'''
-        total = 0
-
-        ax = self.figure.add_subplot(111)
-
-        ax.hold(False)
-        
-        for i in range(len(x)):
-            total += x[i]
-        avr = total/len(x)
-        y = 0
-        for i in range(len(x)):
-            y += np.square(x[i]-avr)
-        sd = np.sqrt(y/len(x))
-
-        n, bins, patches = ax.hist(x, 50, normed=1, facecolor='g', alpha=0.75)
-        z = mlab.normpdf(bins, avr, sd)
-        ax.axis([0, 200, 0, 0.1])
-        ax.plot(bins, z, '--')
-
-        self.canvas.draw()
-        
-def main():
-    app = QtGui.QApplication(sys.argv)
-    dialog = ExampleTable()
-    dialog.show()
-    app.exec_()
-
-if __name__ == '__main__':
-    main()
+''' 
+# get the list of elements which are displayed after the search
+# currently on result page using find_elements_by_class_name  method
+lists= driver.find_elements_by_class_name("r")
+ 
+# get the number of elements found
+print ("Found" + str(len(lists)) +  "searches:")
+ 
+# iterate through each element and print the text that is
+# name of the search
+ 
+i=0
+for listitem in lists:
+   print (listitem)
+   i=i+1
+   if(i>10):
+      break
+ 
+# close the browser window
+driver.quit()
+'''

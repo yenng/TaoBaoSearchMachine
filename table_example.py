@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'table_example.ui'
 #
-# Created: Tue Jul 25 17:14:10 2017
+# Created: Tue Aug 01 14:17:36 2017
 #      by: PyQt4 UI code generator 4.10
 #
 # WARNING! All changes made in this file will be lost!
@@ -26,41 +26,41 @@ except AttributeError:
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName(_fromUtf8("Dialog"))
-        Dialog.resize(634, 466)
-        self.widget = QtGui.QWidget(Dialog)
-        self.widget.setGeometry(QtCore.QRect(10, 0, 621, 431))
-        self.widget.setObjectName(_fromUtf8("widget"))
-        self.verticalLayout = QtGui.QVBoxLayout(self.widget)
-        self.verticalLayout.setMargin(0)
+        Dialog.resize(634, 857)
+        self.gridLayout = QtGui.QGridLayout(Dialog)
+        self.gridLayout.setObjectName(_fromUtf8("gridLayout"))
+        self.verticalLayout = QtGui.QVBoxLayout()
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
-        self.scrollArea = QtGui.QScrollArea(self.widget)
-        self.scrollArea.setWidgetResizable(True)
-        self.scrollArea.setObjectName(_fromUtf8("scrollArea"))
-        self.scrollAreaWidgetContents = QtGui.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 617, 398))
-        self.scrollAreaWidgetContents.setObjectName(_fromUtf8("scrollAreaWidgetContents"))
-        self.tableWidget = QtGui.QTableWidget(self.scrollAreaWidgetContents)
-        self.tableWidget.setGeometry(QtCore.QRect(-5, -9, 621, 491))
+        self.tableWidget = QtGui.QTableWidget(Dialog)
+        self.tableWidget.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
+        self.tableWidget.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAsNeeded)
         self.tableWidget.setObjectName(_fromUtf8("tableWidget"))
         self.tableWidget.setColumnCount(0)
         self.tableWidget.setRowCount(0)
-        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
-        self.verticalLayout.addWidget(self.scrollArea)
-        self.pushButton = QtGui.QPushButton(self.widget)
-        self.pushButton.setObjectName(_fromUtf8("pushButton"))
-        self.verticalLayout.addWidget(self.pushButton)
+        self.verticalLayout.addWidget(self.tableWidget)
+        self.horizontalLayout = QtGui.QHBoxLayout()
+        self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
+        self.getData = QtGui.QPushButton(Dialog)
+        self.getData.setObjectName(_fromUtf8("getData"))
+        self.horizontalLayout.addWidget(self.getData)
+        self.Plot = QtGui.QPushButton(Dialog)
+        self.Plot.setObjectName(_fromUtf8("Plot"))
+        self.horizontalLayout.addWidget(self.Plot)
+        self.verticalLayout.addLayout(self.horizontalLayout)
+        self.gridLayout.addLayout(self.verticalLayout, 0, 0, 1, 1)
         self.buttonBox = QtGui.QDialogButtonBox(Dialog)
-        self.buttonBox.setGeometry(QtCore.QRect(10, 440, 619, 23))
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.Cancel|QtGui.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName(_fromUtf8("buttonBox"))
+        self.gridLayout.addWidget(self.buttonBox, 1, 0, 1, 1)
 
         self.retranslateUi(Dialog)
-        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), Dialog.accept)
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("rejected()")), Dialog.reject)
+        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), Dialog.accept)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):
         Dialog.setWindowTitle(_translate("Dialog", "Dialog", None))
-        self.pushButton.setText(_translate("Dialog", "PushButton", None))
+        self.getData.setText(_translate("Dialog", "Get Data", None))
+        self.Plot.setText(_translate("Dialog", "Plot", None))
 
