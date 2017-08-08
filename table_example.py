@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'table_example.ui'
 #
-# Created: Tue Aug 01 14:17:36 2017
+# Created: Tue Aug 08 17:25:48 2017
 #      by: PyQt4 UI code generator 4.10
 #
 # WARNING! All changes made in this file will be lost!
@@ -31,6 +31,18 @@ class Ui_Dialog(object):
         self.gridLayout.setObjectName(_fromUtf8("gridLayout"))
         self.verticalLayout = QtGui.QVBoxLayout()
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
+        self.horizontalLayout_2 = QtGui.QHBoxLayout()
+        self.horizontalLayout_2.setObjectName(_fromUtf8("horizontalLayout_2"))
+        self.label = QtGui.QLabel(Dialog)
+        self.label.setObjectName(_fromUtf8("label"))
+        self.horizontalLayout_2.addWidget(self.label)
+        self.itemInput = QtGui.QLineEdit(Dialog)
+        self.itemInput.setObjectName(_fromUtf8("itemInput"))
+        self.horizontalLayout_2.addWidget(self.itemInput)
+        self.confirm = QtGui.QPushButton(Dialog)
+        self.confirm.setObjectName(_fromUtf8("confirm"))
+        self.horizontalLayout_2.addWidget(self.confirm)
+        self.verticalLayout.addLayout(self.horizontalLayout_2)
         self.tableWidget = QtGui.QTableWidget(Dialog)
         self.tableWidget.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
         self.tableWidget.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAsNeeded)
@@ -47,20 +59,15 @@ class Ui_Dialog(object):
         self.Plot.setObjectName(_fromUtf8("Plot"))
         self.horizontalLayout.addWidget(self.Plot)
         self.verticalLayout.addLayout(self.horizontalLayout)
-        self.gridLayout.addLayout(self.verticalLayout, 0, 0, 1, 1)
-        self.buttonBox = QtGui.QDialogButtonBox(Dialog)
-        self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.Cancel|QtGui.QDialogButtonBox.Ok)
-        self.buttonBox.setObjectName(_fromUtf8("buttonBox"))
-        self.gridLayout.addWidget(self.buttonBox, 1, 0, 1, 1)
+        self.gridLayout.addLayout(self.verticalLayout, 1, 0, 1, 1)
 
         self.retranslateUi(Dialog)
-        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("rejected()")), Dialog.reject)
-        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), Dialog.accept)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):
         Dialog.setWindowTitle(_translate("Dialog", "Dialog", None))
+        self.label.setText(_translate("Dialog", "Item", None))
+        self.confirm.setText(_translate("Dialog", "Confirm", None))
         self.getData.setText(_translate("Dialog", "Get Data", None))
         self.Plot.setText(_translate("Dialog", "Plot", None))
 

@@ -128,4 +128,26 @@ Price:  [9.8, 150.0]
 24.3292631579
 36.3982708161'''
 
-print result
+# print result
+
+a = 0.01
+b = "def"
+c = "ghi"
+
+abc = []
+abc.append(str(a))
+abc.append(b)
+abc.append(c)
+
+c = ""
+for i in range(len(abc)):
+    c = c + " " + abc[i]
+c = c.replace(" ",",")
+
+print c
+
+
+
+
+
+
