@@ -24,9 +24,7 @@ class taobao:
         try:
             driver.find_element_by_class_name(class_name)
         except NoSuchElementException:
-            print "false"
             return False
-        print "True"
         return True
 
     def search_item_in_shop_page(self,driver, item):
